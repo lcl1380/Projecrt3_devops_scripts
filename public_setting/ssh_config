@@ -1,0 +1,13 @@
+Host public-instance
+    HostName public-instance-ip
+    User ec2-user
+    IdentityFile /경로/파일명.pem
+    ForwardAgent yes
+
+Host private-instance
+    HostName private-instance-ip
+    User ec2-user
+    ProxyCommand ssh -W %h:%p public-instance
+    IdentityFile /경로/파일명.pem
+
+# bastion 인스턴스를 통해서만 SSH 접속 가능하도록 보안 그룹 설정했기 떄문에 프록시 관련 명령 지정할 필요 X
