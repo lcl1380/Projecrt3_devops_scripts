@@ -58,12 +58,19 @@ if ! systemctl is-active --quiet grafana-server; then
   echo "Grafana 설치 중..."
   sudo apt-get install -y apt-transport-https gnupg2 curl -qq > /dev/null
   curl https://packages.grafana.com/gpg.key | sudo apt-key add -qq > /dev/null
-  echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee /etc/apt/sources.list.d/grafana.list
+  echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee /etc/apt/sources.list.d/grafana.list > /dev/null
   sudo apt-get update -qq > /dev/null
   sudo apt-get install -y grafana -qq > /dev/null
   sudo systemctl start grafana-server
-  grafana_status=$(sudo systemctl status grafana-server | grep "Active:")
-  echo -e "Grafana가 성공적으로 설치되었습니다.\nGrafana 상태: $grafana_status\n"
+  
+  # 서비스 상태 확인
+  if systemctl is-active --quiet grafana-server; then
+    echo "Grafana가 성공적으로 설치되었습니다."
+    sudo systemctl status grafana-server | grep "Active:"
+  else
+    echo "Grafana 서비스 시작에 실패했습니다. 상태 로그를 확인하세요."
+    sudo systemctl status grafana-server
+  fi
 else
   echo "Grafana가 이미 실행 중입니다."
 fi
