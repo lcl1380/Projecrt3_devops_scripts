@@ -16,6 +16,9 @@ def deployApp(targetServerIp, targetServerPort, jarFileName) {
         // 기존 애플리케이션 프로세스 종료
         sh "ssh -o StrictHostKeyChecking=no -p $targetServerPort ubuntu@$targetServerIp 'ps -ef | grep java | grep -v grep | awk \'{print \$2}\' | sudo xargs kill -9 || echo \"No process found\"'"
 
+        // 기존 JAR 파일 삭제
+        sh "ssh -o StrictHostKeyChecking=no -p $targetServerPort ubuntu@$targetServerIp 'rm -rf ${deployPath}log-tracking-app*.jar'"
+
         // 새로운 JAR 파일 배포 및 애플리케이션 시작
         sh "scp -o StrictHostKeyChecking=no -P $targetServerPort ${env.WORKSPACE}/build/custom-libs/${jarFileName} ubuntu@$targetServerIp:${deployPath}"
         sh "ssh -o StrictHostKeyChecking=no -p $targetServerPort ubuntu@$targetServerIp '$runAppCommand'"
@@ -64,6 +67,8 @@ pipeline {
                 sh './gradlew clean build'
                 echo "빌드 프로세스 완료."
                 script {
+                    // 5초 대기 : No files ~ 오류 대비
+                    sleep time: 5, unit: 'SECONDS'
                     def jarFileName = getLatestJarFileName()
                     echo "빌드된 파일의 경로: ${jarFileName}"
                 }

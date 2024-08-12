@@ -34,4 +34,5 @@ for logfile in "$aggr_dir"/"$work_target_ymd"/*; do
     rm "$logfile"
 done
 
-# 코드 더 자세히 분석하여 수정하기
+# 코드 더 자세히 분석하여 수정하기... 근데 귀찮아서 주말엔 별 거 못했음...
+# 그나저나 파워코드 재밋따....헤헤
