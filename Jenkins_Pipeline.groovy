@@ -60,6 +60,14 @@ pipeline {
             }
         }
 
+        stage('Test') {
+            steps {
+                echo "테스트 프로세스를 시작합니다..."
+                sh './gradlew test'
+                echo "테스트 프로세스 완료."
+            } 
+        }
+
         stage('Build') {
             steps {
                 echo "빌드 프로세스를 시작합니다..."
@@ -67,21 +75,13 @@ pipeline {
                 sh './gradlew clean build'
                 echo "빌드 프로세스 완료."
                 script {
-                    // 5초 대기 : No files ~ 오류 대비
-                    sleep time: 5, unit: 'SECONDS'
-                    def jarFileName = getLatestJarFileName()
+                    def jarFileName = "${env.WORKSPACE}/build/custom-libs/${getLatestJarFileName()}"
                     echo "빌드된 파일의 경로: ${jarFileName}"
                 }
             }
         }
 
-        stage('Test') {
-            steps {
-                echo "테스트 프로세스를 시작합니다..."
-                sh './gradlew test'
-                echo "테스트 프로세스 완료."
-            }
-        }
+
         
         stage('Deploy A-Private Instance') {
             steps {
