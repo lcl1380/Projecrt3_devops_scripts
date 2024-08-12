@@ -17,7 +17,7 @@ def deployApp(targetServerIp, targetServerPort, jarFileName) {
         sh "ssh -o StrictHostKeyChecking=no -p $targetServerPort ubuntu@$targetServerIp 'ps -ef | grep java | grep -v grep | awk \'{print \$2}\' | sudo xargs kill -9 || echo \"No process found\"'"
 
         // 기존 JAR 파일 삭제
-        sh "ssh -o StrictHostKeyChecking=no -p $targetServerPort ubuntu@$targetServerIp 'rm -rf ${deployPath}log-tracking-app*.jar'"
+        sh "ssh -o StrictHostKeyChecking=no -p $targetServerPort ubuntu@$targetServerIp 'rm -rf ${deployPath}logging-sample-prj-*.jar'"
 
         // 새로운 JAR 파일 배포 및 애플리케이션 시작
         sh "scp -o StrictHostKeyChecking=no -P $targetServerPort ${env.WORKSPACE}/build/custom-libs/${jarFileName} ubuntu@$targetServerIp:${deployPath}"
