@@ -4,6 +4,9 @@ crontab -e
 # 크론탭에 스케쥴 추가 : 5분 마다 자동 실행
 */5 * * * * /home/ubuntu/log_management.sh >> /home/ubuntu/log_management.log 2>&1
 
+*/5 * * * * /home/ubuntu/insert_query.sh >> /home/ubuntu/insert_query.log 2>&1
+*/5 * * * * /home/ubuntu/infile_load.sh >> /home/ubuntu/infile_load.log 2>&1
+
 # 크론탭 저장 및 종료
 
 # 크론탭 설정 확인
@@ -11,3 +14,4 @@ crontab -l
 
 # 크론 로그 확인(옵션)
 grep CRON /var/log/syslog
+

@@ -1,0 +1,19 @@
+CREATE TABLE application_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    log_level VARCHAR(10),              -- 'l'
+    timestamp DATETIME(6),              -- '2024-08-12T01:15:57.757428060'
+    endpoint VARCHAR(255),              -- '/products/'
+    http_method VARCHAR(10),            -- 'GET'
+    user_id VARCHAR(50),                -- '-' (NULL 허용 가능)
+    session_id VARCHAR(50),             -- '-' (NULL 허용 가능)
+    response_time INT,                  -- '42'
+    status_code INT,                    -- '-' (NULL 허용 가능)
+    content_length INT,                 -- '-' (NULL 허용 가능)
+    source_ip VARCHAR(45),              -- '192.168.1.20'
+    user_agent VARCHAR(1024),           -- 'Mozilla/5.0...'
+    INDEX (timestamp),                  -- 성능 향상을 위해 인덱싱
+    INDEX (endpoint)                    -- 성능 향상을 위해 인덱싱
+);
+
+# 로그 예시
+l       2024-08-12T01:15:57.757428060   /products/      GET     -       -       42      -       -       -       192.168.1.20    Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36null
