@@ -1,0 +1,22 @@
+config:
+  target: "http://133.186.223.159" # 타겟 서버 URL 설정
+  phases:
+    - duration: 30
+      arrivalRate: 100
+      name: "warm up"
+    - duration: 30
+      arrivalRate: 500
+      name: "initial peak"
+    - duration: 60
+      arrivalRate: 1000
+      name: "high load"
+    - duration: 60
+      arrivalRate: 500
+      name: "sustained load"
+    - duration: 30
+      arrivalRate: 100
+      name: "cool down"
+scenarios:
+  - flow:
+      - get:
+          url: "/products"# 타겟 URL 경로 설정
