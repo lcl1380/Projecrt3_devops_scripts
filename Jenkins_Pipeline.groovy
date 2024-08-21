@@ -89,11 +89,15 @@ pipeline {
                     try {
                         echo "A-Private Instance에 애플리케이션을 배포 중입니다..."
                         def jarFileName = getLatestJarFileName()
+                        deployApp('192.168.2.27', 22, jarFileName)
+                        deployApp('192.168.2.41', 22, jarFileName)
                         deployApp('192.168.2.53', 22, jarFileName)
                         deployApp('192.168.2.91', 22, jarFileName)
                         echo "A-Private Instance에 애플리케이션 배포 성공."
                     } catch (Exception e) {
                         echo "배포 실패, 롤백을 수행합니다..."
+                        rollbackApp('192.168.2.27', 22)
+                        rollbackApp('192.168.2.41', 22)
                         rollbackApp('192.168.2.53', 22)
                         rollbackApp('192.168.2.91', 22)
                         echo "롤백 완료."
